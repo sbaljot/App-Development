@@ -1,0 +1,82 @@
+screen_helper = """
+<ContentNavigationDrawer>:
+
+    ScrollView:
+
+        MDList:
+
+            OneLineListItem:
+                text: "Reminders"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr1"
+
+            OneLineListItem:
+                text: "Groups"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr2"
+
+            OneLineListItem:
+                text: "Logout"
+                on_press:
+                    app.get_running_app().stop()
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr3"
+
+<Content>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "50dp"
+    MDTextField:
+        hint_text: "Enter reminder"
+
+Screen:
+
+    MDToolbar:
+        id:toolbar
+        pos_hint: {"top": 1}
+        title:'Remnet'
+        left_action_items:[["menu",lambda x:nav_drawer.set_state("open")]]
+        right_action_items:[["information", lambda x:app.navigation_info()]]
+        elevation:8
+
+    MDFloatingActionButton:
+        id: button
+        icon: "plus"
+        pos: 220,20
+        on_release: app.add_task()
+
+    NavigationLayout:
+        x: toolbar.height
+        ScreenManager:
+            id:screen_manager
+
+            Screen:
+                name:"scr1"
+                MDLabel:
+                    text:'Add Reminders'
+                    halign:('center')
+
+            Screen:
+                name:"scr2"
+                MDCard:
+                    size_hint: None, None
+                    size: "280dp", "180dp"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    MDLabel:
+                        text:"Group kinds"
+
+            Screen:
+                name:"scr3"
+                MDLabel:
+                    text:""
+                    halign:('center')
+
+        MDNavigationDrawer:
+            id:nav_drawer
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+"""
